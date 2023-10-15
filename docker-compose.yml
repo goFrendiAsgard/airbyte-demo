@@ -24,6 +24,7 @@ services:
       - HACK_LOCAL_ROOT_PARENT=${HACK_LOCAL_ROOT_PARENT}
     volumes:
       - ${HACK_LOCAL_ROOT_PARENT}:/local_parent
+
   bootloader:
     image: airbyte/bootloader:${VERSION}
     logging: *default-logging
@@ -229,6 +230,7 @@ services:
       - ./temporal/dynamicconfig:/etc/temporal/config/dynamicconfig
     networks:
       - airbyte_internal
+
   airbyte-cron:
     image: airbyte/cron:${VERSION}
     logging: *default-logging
@@ -278,6 +280,7 @@ services:
     depends_on:
       bootloader:
         condition: service_completed_successfully
+
   airbyte-connector-builder-server:
     image: airbyte/connector-builder-server:${VERSION}
     logging: *default-logging
@@ -317,7 +320,6 @@ services:
       - server
       - airbyte-api-server
 
-
   
   #############################################################################
   # Postgre
@@ -341,6 +343,7 @@ services:
     volumes:
       - ./postgre-data/:/var/lib/postgresql/data/
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
   
   #############################################################################
   # Citus
@@ -385,6 +388,7 @@ services:
       - citus-master
     environment: *AUTH
 
+
 volumes:
   workspace:
     name: ${WORKSPACE_DOCKER_MOUNT}
@@ -396,9 +400,11 @@ volumes:
   db:
     name: ${DB_DOCKER_MOUNT}
 
+
 configs:
   flags:
     file: ./flags.yml
+
 
 networks: 
   postgres-network:
